@@ -25,6 +25,7 @@
 	</properties>
 
 	<modules>
+		<module>domain</module>
 		<module>rest-api-adapter</module>
 		<module>application</module>
 	</modules>

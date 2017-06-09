@@ -1,5 +1,7 @@
 package gs.hexagonaldemo.springhexagonaldemo;
 
+import gs.hexagonaldemo.springhexagonaldemo.ports.GetUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,14 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UsersRestController {
 
+    private GetUserService getUserService;
+
+    @Autowired
+    public UsersRestController(GetUserService getUserService) {
+        this.getUserService = getUserService;
+    }
+
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String getUsers() {
-        return "[{\"id\": 1234, \"name\": \"thename\"}, {\"id\": 4567, \"name\": \"anothername\"}]";
+        return getUserService.getAllUsers();
     }
 
     @RequestMapping(value = "/users/{userid}", method = RequestMethod.GET)
-    public String getUser(@PathVariable String userid) {
-        return "{\"id\": " + userid + ", \"name\": \"a_single_user\"}";
+    public String getUser(@PathVariable int userid) {
+        return getUserService.getUser(userid);
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
