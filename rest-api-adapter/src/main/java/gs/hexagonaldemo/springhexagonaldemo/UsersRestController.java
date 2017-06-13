@@ -1,22 +1,23 @@
 package gs.hexagonaldemo.springhexagonaldemo;
 
+import gs.hexagonaldemo.springhexagonaldemo.ports.AddUserService;
 import gs.hexagonaldemo.springhexagonaldemo.ports.GetUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UsersRestController {
 
     private GetUserService getUserService;
 
+    private AddUserService addUserService;
+
     @Autowired
-    public UsersRestController(GetUserService getUserService) {
+    public UsersRestController(GetUserService getUserService, AddUserService addUserService) {
         this.getUserService = getUserService;
+        this.addUserService = addUserService;
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -30,7 +31,8 @@ public class UsersRestController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity addUser() {
+    public ResponseEntity addUser(@RequestBody int userid) {
+        addUserService.addUser(userid);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 }
