@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://localhost:8080/json/GetUsers.json",
+  "title": "Users",
+  "description": "A list of users",
+  "type": "array",
+  "items": {
+    "$ref": "GetUser.json"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://localhost:8080/json/GetUser.json",
+  "title": "User",
+  "description": "A single user",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for a user",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the user",
+      "type": "string"
+    }
+  },
+  "required": ["id", "name"]
+}
