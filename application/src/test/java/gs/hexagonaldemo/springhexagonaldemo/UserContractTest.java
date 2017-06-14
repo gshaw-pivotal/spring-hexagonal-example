@@ -61,6 +61,13 @@ public class UserContractTest {
         assertTrue(validateJson(buildURL("/json/GetUser.json"), responseData));
     }
 
+    @Test
+    public void POST_users_addAGivenUser_returnsCreated() throws MalformedURLException {
+        ResponseEntity<String> response = restTemplate.postForEntity(buildURL() + "/users", 123, String.class);
+
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
+    }
+
     private boolean validateJson(URL schemaSpec, String responseData) throws IOException, ProcessingException {
         return validator.validateJson(schemaSpec, responseData);
     }
