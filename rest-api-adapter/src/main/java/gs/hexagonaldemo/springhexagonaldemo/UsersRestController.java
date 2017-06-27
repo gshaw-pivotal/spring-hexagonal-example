@@ -1,5 +1,6 @@
 package gs.hexagonaldemo.springhexagonaldemo;
 
+import gs.hexagonaldemo.springhexagonaldemo.models.User;
 import gs.hexagonaldemo.springhexagonaldemo.ports.AddUserService;
 import gs.hexagonaldemo.springhexagonaldemo.ports.GetUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class UsersRestController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity addUser(@RequestBody int userid) {
-        addUserService.addUser(userid);
+    public ResponseEntity addUser(@RequestBody User newUser) {
+        addUserService.addUser(newUser);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 }

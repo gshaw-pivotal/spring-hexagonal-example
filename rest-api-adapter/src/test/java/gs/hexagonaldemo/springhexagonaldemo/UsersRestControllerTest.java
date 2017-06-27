@@ -1,5 +1,6 @@
 package gs.hexagonaldemo.springhexagonaldemo;
 
+import gs.hexagonaldemo.springhexagonaldemo.models.User;
 import gs.hexagonaldemo.springhexagonaldemo.ports.AddUserService;
 import gs.hexagonaldemo.springhexagonaldemo.ports.GetUserService;
 import org.junit.Before;
@@ -50,12 +51,12 @@ public class UsersRestControllerTest {
 
     @Test
     public void addUser_callsTheAddUserService() {
-        int userId = 123;
+        User newUser = User.builder().userId(123).userName("Name").build();
 
-        doNothing().when(addUserServiceMock).addUser(userId);
+        doNothing().when(addUserServiceMock).addUser(newUser);
 
-        usersRestController.addUser(userId);
+        usersRestController.addUser(newUser);
 
-        verify(addUserServiceMock).addUser(userId);
+        verify(addUserServiceMock).addUser(newUser);
     }
 }

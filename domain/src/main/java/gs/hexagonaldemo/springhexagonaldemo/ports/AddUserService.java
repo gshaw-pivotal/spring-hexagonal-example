@@ -1,7 +1,9 @@
 package gs.hexagonaldemo.springhexagonaldemo.ports;
 
+import gs.hexagonaldemo.springhexagonaldemo.models.User;
+
 public interface AddUserService {
 
-    void addUser(int userId);
+    void addUser(User newUser);
 
 }
