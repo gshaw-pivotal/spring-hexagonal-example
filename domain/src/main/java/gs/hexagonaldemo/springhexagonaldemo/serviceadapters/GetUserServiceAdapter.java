@@ -1,13 +1,22 @@
 package gs.hexagonaldemo.springhexagonaldemo.serviceadapters;
 
+import gs.hexagonaldemo.springhexagonaldemo.models.User;
 import gs.hexagonaldemo.springhexagonaldemo.ports.GetUserService;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 public class GetUserServiceAdapter implements GetUserService {
     @Override
-    public String getAllUsers() {
-        return "[{\"id\": 1234, \"name\": \"thename\"}, {\"id\": 4567, \"name\": \"anothername\"}]";
+    public List<User> getAllUsers() {
+        User user1 = User.builder().id(1234).name("thename").build();
+        User user2 = User.builder().id(4567).name("anothername").build();
+
+        return Arrays.asList(user1, user2);
+
     }
 
     @Override

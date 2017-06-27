@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Collections;
+
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,7 +33,7 @@ public class UsersRestControllerTest {
 
     @Test
     public void getAllUsers_callsTheGetUserService() {
-        when(getUserServiceMock.getAllUsers()).thenReturn("");
+        when(getUserServiceMock.getAllUsers()).thenReturn(Collections.emptyList());
 
         usersRestController.getUsers();
 
@@ -51,7 +53,7 @@ public class UsersRestControllerTest {
 
     @Test
     public void addUser_callsTheAddUserService() {
-        User newUser = User.builder().userName("Name").build();
+        User newUser = User.builder().name("Name").build();
 
         doNothing().when(addUserServiceMock).addUser(newUser);
 

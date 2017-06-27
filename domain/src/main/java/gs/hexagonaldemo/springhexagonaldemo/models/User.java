@@ -8,10 +8,10 @@ import lombok.NonNull;
 @Data
 public class User {
 
-    private int userId;
+    private int id;
 
     @NonNull
-    private String userName;
+    private String name;
 
     private String contactEmail;
 }

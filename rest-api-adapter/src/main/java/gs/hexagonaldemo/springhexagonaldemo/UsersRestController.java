@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class UsersRestController {
@@ -24,7 +25,7 @@ public class UsersRestController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public String getUsers() {
+    public List<User> getUsers() {
         return getUserService.getAllUsers();
     }
 

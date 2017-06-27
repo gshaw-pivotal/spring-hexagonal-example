@@ -63,7 +63,7 @@ public class UserContractTest {
 
     @Test
     public void POST_users_addAValidUser_returnsCreated() throws MalformedURLException {
-        User newUser = User.builder().userName("Name").build();
+        User newUser = User.builder().name("Name").build();
         ResponseEntity<String> response = restTemplate.postForEntity(buildURL() + "/users", newUser, String.class);
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
