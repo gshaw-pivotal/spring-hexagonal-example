@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class UsersRestController {
 
@@ -32,7 +34,7 @@ public class UsersRestController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity addUser(@RequestBody User newUser) {
+    public ResponseEntity addUser(@Valid @RequestBody User newUser) {
         addUserService.addUser(newUser);
         return new ResponseEntity(HttpStatus.CREATED);
     }

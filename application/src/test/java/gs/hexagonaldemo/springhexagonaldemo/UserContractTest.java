@@ -70,6 +70,13 @@ public class UserContractTest {
         assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
     }
 
+    @Test
+    public void POST_users_givenNotAUser_returnsBadRequest() throws MalformedURLException {
+        ResponseEntity<String> response = restTemplate.postForEntity(buildURL() + "/users", "something that is not a user", String.class);
+
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.UNSUPPORTED_MEDIA_TYPE));
+    }
+
     private boolean validateJson(URL schemaSpec, String responseData) throws IOException, ProcessingException {
         return validator.validateJson(schemaSpec, responseData);
     }
