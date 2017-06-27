@@ -51,7 +51,7 @@ public class UsersRestControllerTest {
 
     @Test
     public void addUser_callsTheAddUserService() {
-        User newUser = User.builder().userId(123).userName("Name").build();
+        User newUser = User.builder().userName("Name").build();
 
         doNothing().when(addUserServiceMock).addUser(newUser);
 
