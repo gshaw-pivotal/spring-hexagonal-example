@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AddUserServiceAdapter implements AddUserService {
+
     @Override
     public void addUser(User newUser) {
 

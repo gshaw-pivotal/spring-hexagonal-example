@@ -9,8 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -68,6 +67,19 @@ public class UserContractTest {
         ResponseEntity<String> response = restTemplate.postForEntity(buildURL() + "/users", newUser, String.class);
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
+    }
+
+    @Test
+    public void POST_users_addAnInvalidUser_returnsBadRequest() throws MalformedURLException {
+        String newUser = "{\"contactEmail\": \"something@something.com\"}";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> entity = new HttpEntity<>(newUser, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(buildURL() + "/users", entity, String.class);
+
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
     }
 
     @Test
