@@ -4,6 +4,8 @@ import gs.hexagonaldemo.springhexagonaldemo.models.User;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertTrue;
 
 public class UserRepositoryAdapterTest {
@@ -16,7 +18,7 @@ public class UserRepositoryAdapterTest {
     }
 
     @Test
-    public void userRepository_givenAUser_itStoresTheUser() {
+    public void userRepository_givenAUserToAdd_itStoresTheUser() {
         User newUser = User.builder().name("A name").build();
 
         assertTrue(userRepositoryAdapter.getUsers().size() == 0);
@@ -24,5 +26,16 @@ public class UserRepositoryAdapterTest {
         userRepositoryAdapter.addUser(newUser);
 
         assertTrue(userRepositoryAdapter.getUsers().size() == 1);
+    }
+
+    @Test
+    public void userRepository_givenAUserToAdd_theAddedUserIsGivenAnId() {
+        User newUser = User.builder().name("A name").build();
+
+        userRepositoryAdapter.addUser(newUser);
+
+        List<User> users = userRepositoryAdapter.getUsers();
+
+        assertTrue(users.get(0).getId() != 0);
     }
 }

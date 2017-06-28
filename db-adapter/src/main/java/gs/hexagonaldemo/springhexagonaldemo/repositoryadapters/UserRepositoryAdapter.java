@@ -12,6 +12,7 @@ public class UserRepositoryAdapter implements UserRepository {
 
     @Override
     public void addUser(User newUser) {
+        newUser.setId(users.size() + 1);
         users.add(newUser);
     }
 
