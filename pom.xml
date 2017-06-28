@@ -27,6 +27,7 @@
 	<modules>
 		<module>domain</module>
 		<module>rest-api-adapter</module>
+		<module>db-adapter</module>
 		<module>application</module>
 	</modules>
 
