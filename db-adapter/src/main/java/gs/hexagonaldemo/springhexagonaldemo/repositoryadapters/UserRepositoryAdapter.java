@@ -20,4 +20,14 @@ public class UserRepositoryAdapter implements UserRepository {
     public List<User> getUsers() {
         return users;
     }
+
+    @Override
+    public void deleteUser(int id) {
+        for (int index = 0; index < users.size(); index++) {
+            if (users.get(index).getId() == id) {
+                users.remove(index);
+                return ;
+            }
+        }
+    }
 }

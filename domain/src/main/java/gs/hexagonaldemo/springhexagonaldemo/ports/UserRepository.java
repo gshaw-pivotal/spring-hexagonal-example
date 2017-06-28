@@ -10,4 +10,6 @@ public interface UserRepository {
 
     List<User> getUsers();
 
+    void deleteUser(int id);
+
 }
