@@ -40,7 +40,22 @@ public class UserContractTest {
     }
 
     @Test
-    public void GET_users_returnsAListOfUsers() throws IOException, ProcessingException {
+    public void GET_users_whenThereAreNoSavedUsers_returnsAnEmptyListOfUsers() throws IOException, ProcessingException {
+        ResponseEntity<String> response = restTemplate.getForEntity(buildURL() + "/users", String.class);
+
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+
+        String responseData = response.getBody();
+
+        assertTrue(validateJson(buildURL("/json/GetUsers.json"), responseData));
+    }
+
+    @Test
+    public void GET_users_whenThereAreSavedUsers_returnsAListOfUsers() throws IOException, ProcessingException {
+        saveUser("User name 1");
+        saveUser("User name 2");
+        saveUser("User name 3");
+
         ResponseEntity<String> response = restTemplate.getForEntity(buildURL() + "/users", String.class);
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
@@ -100,5 +115,10 @@ public class UserContractTest {
 
     private URL buildURL(String path) throws MalformedURLException {
         return new URL(rootURL + port + path);
+    }
+
+    private void saveUser(String userName) throws MalformedURLException {
+        User newUser = User.builder().name(userName).build();
+        ResponseEntity<String> response = restTemplate.postForEntity(buildURL() + "/users", newUser, String.class);
     }
 }

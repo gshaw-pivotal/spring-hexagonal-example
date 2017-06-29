@@ -18,8 +18,8 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public GetUserService getUserService() {
-        return new GetUserServiceAdapter();
+    public GetUserService getUserService(UserRepository userRepository) {
+        return new GetUserServiceAdapter(userRepository);
     }
 
     @Bean
