@@ -67,6 +67,7 @@ public class UserContractTest {
         ResponseEntity<String> response = restTemplate.postForEntity(buildURL() + "/users", newUser, String.class);
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
+        assertTrue(response.getBody().toString().contains("{\"id\":"));
     }
 
     @Test

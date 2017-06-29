@@ -4,6 +4,6 @@ import gs.hexagonaldemo.springhexagonaldemo.models.User;
 
 public interface AddUserService {
 
-    void addUser(User newUser);
+    int addUser(User newUser);
 
 }

@@ -31,6 +31,11 @@
             <artifactId>rest-api-adapter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>gs.hexagonaldemo</groupId>
+            <artifactId>db-adapter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

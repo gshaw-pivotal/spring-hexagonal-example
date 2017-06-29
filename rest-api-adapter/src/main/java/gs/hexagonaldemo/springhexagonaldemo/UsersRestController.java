@@ -36,7 +36,11 @@ public class UsersRestController {
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity addUser(@Valid @RequestBody User newUser) {
-        addUserService.addUser(newUser);
-        return new ResponseEntity(HttpStatus.CREATED);
+        int userId = addUserService.addUser(newUser);
+        if (userId > 0) {
+            return new ResponseEntity("{\"id\": " + userId + "}", HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 }
