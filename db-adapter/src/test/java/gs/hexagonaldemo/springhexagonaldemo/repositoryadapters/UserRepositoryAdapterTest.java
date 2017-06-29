@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertTrue;
 
@@ -31,11 +32,9 @@ public class UserRepositoryAdapterTest {
     @Test
     public void userRepository_givenAUserIdToDelete_itDeletesTheUser() {
         User user = User.builder().name("A name").build();
-        userRepositoryAdapter.addUser(user);
-        List<User> users = userRepositoryAdapter.getUsers();
-        int userId = users.get(0).getId();
+        int idOfUserToDelete = userRepositoryAdapter.addUser(user);
 
-        userRepositoryAdapter.deleteUser(userId);
+        userRepositoryAdapter.deleteUser(idOfUserToDelete);
 
         assertTrue(userRepositoryAdapter.getUsers().size() == 0);
     }
@@ -45,16 +44,13 @@ public class UserRepositoryAdapterTest {
         User user1 = User.builder().name("A name 1").build();
         User user2 = User.builder().name("A name 2").build();
         User user3 = User.builder().name("A name 3").build();
-        userRepositoryAdapter.addUser(user1);
+        int idOfUserToDelete = userRepositoryAdapter.addUser(user1);
         userRepositoryAdapter.addUser(user2);
         userRepositoryAdapter.addUser(user3);
 
-        List<User> users = userRepositoryAdapter.getUsers();
-        int idOfUserToDelete = users.get(0).getId();
-
         userRepositoryAdapter.deleteUser(idOfUserToDelete);
 
-        users = userRepositoryAdapter.getUsers();
+        List<User> users = userRepositoryAdapter.getUsers();
 
         assertTrue(users.size() == 2);
 
@@ -71,5 +67,26 @@ public class UserRepositoryAdapterTest {
         List<User> users = userRepositoryAdapter.getUsers();
 
         assertTrue(users.get(0).getId() != 0);
+    }
+
+    @Test
+    public void userRepository_allUsersInRepository_haveAnUnqiueId() {
+        User user1 = User.builder().name("A name 1").build();
+        User user2 = User.builder().name("A name 2").build();
+        User user3 = User.builder().name("A name 3").build();
+        int idOfUserToDelete = userRepositoryAdapter.addUser(user1);
+        userRepositoryAdapter.addUser(user2);
+        userRepositoryAdapter.addUser(user3);
+
+        userRepositoryAdapter.deleteUser(idOfUserToDelete);
+
+        User user4 = User.builder().name("A name 4").build();
+        userRepositoryAdapter.addUser(user4);
+
+        List<User> users = userRepositoryAdapter.getUsers();
+
+        List<Integer> ids = users.stream().map(user -> user.getId()).distinct().collect(Collectors.toList());
+
+        assertTrue(ids.size() == users.size());
     }
 }

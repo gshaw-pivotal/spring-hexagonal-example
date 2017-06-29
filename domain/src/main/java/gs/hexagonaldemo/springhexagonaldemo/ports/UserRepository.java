@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserRepository {
 
-    void addUser(User newUser);
+    int addUser(User newUser);
 
     List<User> getUsers();
 

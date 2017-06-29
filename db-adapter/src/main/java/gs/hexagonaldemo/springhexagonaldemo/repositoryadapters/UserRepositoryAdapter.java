@@ -10,10 +10,16 @@ public class UserRepositoryAdapter implements UserRepository {
 
     private List<User> users = new ArrayList<>();
 
+    private int nextAvailableId = 1;
+
     @Override
-    public void addUser(User newUser) {
-        newUser.setId(users.size() + 1);
+    public int addUser(User newUser) {
+        newUser.setId(nextAvailableId);
         users.add(newUser);
+
+        incrementNextAvailableId();
+
+        return newUser.getId();
     }
 
     @Override
@@ -29,5 +35,9 @@ public class UserRepositoryAdapter implements UserRepository {
                 return ;
             }
         }
+    }
+
+    private void incrementNextAvailableId() {
+        nextAvailableId++;
     }
 }
