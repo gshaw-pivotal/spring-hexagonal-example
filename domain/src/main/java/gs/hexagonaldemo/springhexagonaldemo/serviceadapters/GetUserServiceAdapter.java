@@ -2,13 +2,10 @@ package gs.hexagonaldemo.springhexagonaldemo.serviceadapters;
 
 import gs.hexagonaldemo.springhexagonaldemo.models.User;
 import gs.hexagonaldemo.springhexagonaldemo.ports.GetUserService;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-@Component
 public class GetUserServiceAdapter implements GetUserService {
     @Override
     public List<User> getAllUsers() {
