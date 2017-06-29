@@ -5,6 +5,7 @@ import gs.hexagonaldemo.springhexagonaldemo.ports.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserRepositoryAdapter implements UserRepository {
 
@@ -35,6 +36,11 @@ public class UserRepositoryAdapter implements UserRepository {
                 return ;
             }
         }
+    }
+
+    @Override
+    public Optional<User> getUser(int userId) {
+        return users.stream().filter(user ->user.getId() == userId).findFirst();
     }
 
     private void incrementNextAvailableId() {
