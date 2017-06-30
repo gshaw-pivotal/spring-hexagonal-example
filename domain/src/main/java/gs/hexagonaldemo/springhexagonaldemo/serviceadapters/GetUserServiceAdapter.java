@@ -4,8 +4,8 @@ import gs.hexagonaldemo.springhexagonaldemo.models.User;
 import gs.hexagonaldemo.springhexagonaldemo.ports.GetUserService;
 import gs.hexagonaldemo.springhexagonaldemo.ports.UserRepository;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class GetUserServiceAdapter implements GetUserService {
 
@@ -21,7 +21,7 @@ public class GetUserServiceAdapter implements GetUserService {
     }
 
     @Override
-    public String getUser(int userId) {
-        return "{\"id\": " + userId + ", \"name\": \"a_single_user\"}";
+    public Optional<User> getUser(int userId) {
+        return userRepository.getUser(userId);
     }
 }

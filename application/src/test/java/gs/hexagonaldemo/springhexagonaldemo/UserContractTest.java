@@ -66,8 +66,20 @@ public class UserContractTest {
     }
 
     @Test
-    public void GET_users_givenAnUserID_returnsASingleUser() throws IOException, ProcessingException {
+    public void GET_users_givenAnUserIDThatIsNotStored_returnsNoUser() throws IOException, ProcessingException {
         ResponseEntity<String> response = restTemplate.getForEntity(buildURL() + "/users/9999", String.class);
+
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.NOT_FOUND));
+
+        String responseData = response.getBody();
+
+        assertThat(responseData.toString(), equalTo("{\"message\":\"User with id 9999 was not found\"}"));
+    }
+
+    @Test
+    public void GET_users_givenAnUserIDThatIsStored_returnsASingleUser() throws IOException, ProcessingException {
+        int userId = saveUser("User name 1");
+        ResponseEntity<String> response = restTemplate.getForEntity(buildURL() + "/users/" + userId, String.class);
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
 
@@ -117,8 +129,10 @@ public class UserContractTest {
         return new URL(rootURL + port + path);
     }
 
-    private void saveUser(String userName) throws MalformedURLException {
+    private int saveUser(String userName) throws MalformedURLException {
         User newUser = User.builder().name(userName).build();
         ResponseEntity<String> response = restTemplate.postForEntity(buildURL() + "/users", newUser, String.class);
+
+        return Integer.valueOf(response.getBody().toString().split(":")[1].replaceAll("}", "").trim()).intValue();
     }
 }

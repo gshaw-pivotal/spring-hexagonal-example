@@ -11,8 +11,10 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -66,4 +68,43 @@ public class GetUserServiceAdapterTest {
 
         verify(userRepository).getUsers();
     }
+
+    @Test
+    public void getAUser_callsTheUserRepository() {
+        int userId = 1;
+        User retrievedUser = User.builder().id(userId).name("User name").build();
+
+        when(userRepository.getUser(userId)).thenReturn(Optional.of(retrievedUser));
+
+        getUserServiceAdapter.getUser(userId);
+
+        verify(userRepository).getUser(userId);
+    }
+
+    @Test
+    public void getAUser_whenTheUserIdDoesNotMatch_returnsNoUser() {
+        int userId = 1;
+        when(userRepository.getUser(userId)).thenReturn(Optional.empty());
+
+        Optional<User> returnedUser = getUserServiceAdapter.getUser(userId);
+
+        assertFalse(returnedUser.isPresent());
+
+        verify(userRepository).getUser(userId);
+    }
+
+    @Test
+    public void getAUser_whenTheUserIdMatches_returnsTheUser() {
+        int userId = 1;
+        User retrievedUser = User.builder().id(userId).name("User name").build();
+
+        when(userRepository.getUser(userId)).thenReturn(Optional.of(retrievedUser));
+
+        Optional<User> returnedUser = getUserServiceAdapter.getUser(userId);
+
+        assertTrue(returnedUser.isPresent());
+
+        verify(userRepository).getUser(userId);
+    }
+
 }

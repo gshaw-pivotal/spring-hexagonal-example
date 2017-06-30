@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
+import java.util.Optional;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
@@ -47,9 +49,51 @@ public class UsersRestControllerTest {
     public void getUser_callsTheGetUserService() {
         int userId = 123;
 
-        when(getUserServiceMock.getUser(userId)).thenReturn("");
+        when(getUserServiceMock.getUser(userId)).thenReturn(Optional.empty());
 
         usersRestController.getUser(userId);
+
+        verify(getUserServiceMock).getUser(userId);
+    }
+
+    @Test
+    public void getUser_givenAUserThatExists_returnsThatUser() {
+        int userId = 123;
+        User userToRetrieve = User.builder().id(userId).name("User name").build();
+
+        when(getUserServiceMock.getUser(userId)).thenReturn(Optional.of(userToRetrieve));
+
+        ResponseEntity responseEntity = usersRestController.getUser(userId);
+        User returnedUser = ((User)responseEntity.getBody());
+
+        assertTrue(responseEntity.getStatusCode() == HttpStatus.OK);
+        assertTrue(returnedUser.equals(userToRetrieve));
+
+        verify(getUserServiceMock).getUser(userId);
+    }
+
+    @Test
+    public void getUser_givenAUserThatDoesNotExist_returnsABadRequest() {
+        int userId = 123;
+
+        when(getUserServiceMock.getUser(userId)).thenReturn(Optional.empty());
+
+        ResponseEntity responseEntity = usersRestController.getUser(userId);
+
+        assertTrue(responseEntity.getStatusCode() == HttpStatus.NOT_FOUND);
+
+        verify(getUserServiceMock).getUser(userId);
+    }
+
+    @Test
+    public void getUser_givenAUserThatDoesNotExist_returnsAnErrorMessage() {
+        int userId = 123;
+
+        when(getUserServiceMock.getUser(userId)).thenReturn(Optional.empty());
+
+        ResponseEntity responseEntity = usersRestController.getUser(userId);
+
+        assertTrue(responseEntity.getBody().toString().contains("User with id " + userId + " was not found"));
 
         verify(getUserServiceMock).getUser(userId);
     }
