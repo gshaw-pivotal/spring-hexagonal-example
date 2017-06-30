@@ -1,5 +1,6 @@
-package gs.hexagonaldemo.springhexagonaldemo;
+package gs.hexagonaldemo.springhexagonaldemo.controllers;
 
+import gs.hexagonaldemo.springhexagonaldemo.controllers.UsersRestController;
 import gs.hexagonaldemo.springhexagonaldemo.models.User;
 import gs.hexagonaldemo.springhexagonaldemo.ports.AddUserService;
 import gs.hexagonaldemo.springhexagonaldemo.ports.GetUserService;
@@ -16,7 +17,6 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

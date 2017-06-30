@@ -1,4 +1,4 @@
-package gs.hexagonaldemo.springhexagonaldemo;
+package gs.hexagonaldemo.springhexagonaldemo.controllers;
 
 import gs.hexagonaldemo.springhexagonaldemo.models.ErrorMessage;
 import gs.hexagonaldemo.springhexagonaldemo.models.User;
