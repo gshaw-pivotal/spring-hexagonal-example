@@ -28,6 +28,7 @@
 		<module>domain</module>
 		<module>rest-api-adapter</module>
 		<module>in-memory-db-adapter</module>
+		<module>name-verifier-adapter</module>
 		<module>application</module>
 	</modules>
 
