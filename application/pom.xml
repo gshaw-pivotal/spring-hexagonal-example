@@ -33,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>gs.hexagonaldemo</groupId>
-            <artifactId>db-adapter</artifactId>
+            <artifactId>in-memory-db-adapter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
