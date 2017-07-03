@@ -4,7 +4,11 @@ A spring-boot based example of hexagonal design (also known as the ports and ada
 
 Through the use of ports, contracts between the various modules can be set up, allowing for the modules to be easily replaced with other implementations. The only condition; that the module conforms to the contract specified.
 
-Thus by having a hexagonal design, the current database adapter module; which is a simple in-memory implementation can be swapped out for a JPA repository or a flat file or something else and as long as it conforms to the contract (aka port) no other module needs to know or care.
+Thus by having a hexagonal design, the current database adapter module; which is a simple in-memory implementation can be swapped out for a JPA repository or a flat file or something else and as long as it conforms to the contract (aka port) no other module (especially the domain module) needs to know or care.
+
+Similarly, the name verifier adapter can be swapped out for a real implementation that would communicate with a third party application without the rest of our application ever knowing. Again as long as the current implementation conforms to the contract (in this case the NameVerifierService) no one will ever know the difference.
+
+Also, the rest api adapter (which as the name implies uses HTTP REST) could be replaced by a SOAP based api and again the domain (and other modules) would not know nor need to care as long as the new api passed along the expected objects as specified in the ports (AddUserService and GetUserService).
 
 ## Getting Started ##
 
@@ -18,12 +22,3 @@ The following are some resources that explain the hexagonal design / pattern
 
 - [Hexagonal Architecture](http://alistair.cockburn.us/Hexagonal+architecture)
 - [Ports-And-Adapters / Hexagonal Architecture](http://www.dossier-andreas.net/software_architecture/ports_and_adapters.html)
-
-## To Do ##
-
-This codebase is currently a work in progress.
-
-- Add a rest-api-adapter module (Done)
-- Add a domain module (Done)
-- Add a database adapter module (Done)
-- Perhaps add third party integration adapter module(s)
