@@ -1,6 +1,7 @@
 package gs.hexagonaldemo.springhexagonaldemo.serviceadapters;
 
 import gs.hexagonaldemo.springhexagonaldemo.models.User;
+import gs.hexagonaldemo.springhexagonaldemo.ports.NameVerifierService;
 import gs.hexagonaldemo.springhexagonaldemo.ports.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,11 +10,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AddUserServiceAdapterTest {
+
+    @Mock
+    private NameVerifierService nameVerifierService;
 
     @Mock
     private UserRepository userRepository;
@@ -27,9 +29,49 @@ public class AddUserServiceAdapterTest {
     }
 
     @Test
-    public void givenAValidUser_itCallsTheUserRepository() {
-        User newUser = User.builder().name("A name").build();
+    public void givenAUser_itCallsTheNameVerifier() {
+        String nameOfUser = "A name";
+        User newUser = User.builder().name(nameOfUser).build();
 
+        when(nameVerifierService.verifyName(nameOfUser)).thenReturn(true);
+
+        addUserServiceAdapter.addUser(newUser);
+
+        verify(nameVerifierService).verifyName(nameOfUser);
+    }
+
+    @Test
+    public void givenAUserWithAnInvalidName_itDoesNotCallTheUserRepository() {
+        String nameOfUser = "bad 777 name";
+        User newUser = User.builder().name(nameOfUser).build();
+
+        when(nameVerifierService.verifyName(nameOfUser)).thenReturn(false);
+
+        addUserServiceAdapter.addUser(newUser);
+
+        verify(nameVerifierService).verifyName(nameOfUser);
+        verify(userRepository, never()).addUser(newUser);
+    }
+
+    @Test
+    public void givenAUserWithAnInvalidName_itReturnsANegativeUserId() {
+        String nameOfUser = "bad 777 name";
+        User newUser = User.builder().name(nameOfUser).build();
+
+        when(nameVerifierService.verifyName(nameOfUser)).thenReturn(false);
+
+        assertTrue(addUserServiceAdapter.addUser(newUser) < 0);
+
+        verify(nameVerifierService).verifyName(nameOfUser);
+        verify(userRepository, never()).addUser(newUser);
+    }
+
+    @Test
+    public void givenAValidUser_itCallsTheUserRepository() {
+        String nameOfUser = "A name";
+        User newUser = User.builder().name(nameOfUser).build();
+
+        when(nameVerifierService.verifyName(nameOfUser)).thenReturn(true);
         when(userRepository.addUser(newUser)).thenReturn(1);
 
         addUserServiceAdapter.addUser(newUser);
@@ -41,8 +83,10 @@ public class AddUserServiceAdapterTest {
     public void givenAValidUser_itReturnsTheUserId() {
         int userId = 1;
 
-        User newUser = User.builder().name("A name").build();
+        String nameOfUser = "A name";
+        User newUser = User.builder().name(nameOfUser).build();
 
+        when(nameVerifierService.verifyName(nameOfUser)).thenReturn(true);
         when(userRepository.addUser(newUser)).thenReturn(userId);
 
         assertTrue(addUserServiceAdapter.addUser(newUser) == userId);

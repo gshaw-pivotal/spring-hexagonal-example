@@ -52,9 +52,9 @@ public class UserContractTest {
 
     @Test
     public void GET_users_whenThereAreSavedUsers_returnsAListOfUsers() throws IOException, ProcessingException {
-        saveUser("User name 1");
-        saveUser("User name 2");
-        saveUser("User name 3");
+        saveUser("User name a");
+        saveUser("User name b");
+        saveUser("User name c");
 
         ResponseEntity<String> response = restTemplate.getForEntity(buildURL() + "/users", String.class);
 
@@ -78,7 +78,7 @@ public class UserContractTest {
 
     @Test
     public void GET_users_givenAnUserIDThatIsStored_returnsASingleUser() throws IOException, ProcessingException {
-        int userId = saveUser("User name 1");
+        int userId = saveUser("User name a");
         ResponseEntity<String> response = restTemplate.getForEntity(buildURL() + "/users/" + userId, String.class);
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
@@ -86,6 +86,14 @@ public class UserContractTest {
         String responseData = response.getBody();
 
         assertTrue(validateJson(buildURL("/json/GetUser.json"), responseData));
+    }
+
+    @Test
+    public void POST_users_givenAUserWithAnInvalidName_returnsBadRequest() throws MalformedURLException {
+        User newUser = User.builder().name("Bad 456 Name").build();
+        ResponseEntity<String> response = restTemplate.postForEntity(buildURL() + "/users", newUser, String.class);
+
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
     }
 
     @Test
